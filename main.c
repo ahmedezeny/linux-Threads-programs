@@ -2,11 +2,13 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <time.h> 
-#define M 5
-#define N 4
-#define L 8
+#define M 3
+#define N 5
+#define L 4
+#define Max 100
 
-long long a[M][N],b[N][L],c[M][L];
+int m,n,l;
+int a[Max][Max],b[Max][Max],c[Max][Max];
 
 /*struct sum_runner_struct {
 	long long limit;
@@ -52,13 +54,50 @@ void* rowMul(void* arg)
 
 
 void initMatrs(){
+	FILE *infile;
+    infile = fopen("infile.txt","r");
+
+    if (infile == NULL)
+        exit(1);
+
+    fscanf( infile, "%d %d", &m ,&n);
+    int check=n;
+
+    printf("%d %d\n",m,n );
+
+    for(int i = 0; i < m;i++) {
+    	for(int j = 0; j < n;j++) {
+    		fscanf( infile, "%d", &a[i][j]);
+    		printf("%d ",a[i][j]);
+    	}
+    	printf("\n");	
+    }
+
+    fscanf( infile, "%d %d", &n ,&l);
+    printf("%d %d\n",n,l );
+    if(n!=check){
+    	printf("can't perform multiplication on these matrices\n");
+    	exit(0);
+    }
+
+    for(int i = 0; i < n;i++) {
+    	printf("	");
+    	for(int j = 0; j < l;j++) {
+    		fscanf( infile, "%d", &b[i][j]);
+    		printf("%d ",b[i][j]);
+    	}
+    	printf("\n");
+    }
+
+    fclose(infile);
+/*
 	for(int i = 0; i < M;i++) {
     	for(int j = 0; j < N;j++) {
 
     		a[i][j]= rand()%10;
     		//b[i][j]= rand()%10;
     		//a[i][j]=(j+i);
-    		printf("%lld ",a[i][j]);
+    		printf("%d ",a[i][j]);
     	}
     	printf("\n");
     }
@@ -69,10 +108,10 @@ void initMatrs(){
     		//b[i][j]=(j+i);
     		//a[i][j]= rand()%10;
     		b[i][j]= rand()%10;
-    		printf("%lld ",b[i][j]);
+    		printf("%d ",b[i][j]);
     	}
     	printf("\n");
-    }
+    }*/
 }
 
 int main(int argc, char **argv)
@@ -119,7 +158,7 @@ int main(int argc, char **argv)
 	for(int i = 0; i < M;i++) {
     	for(int j = 0; j < L;j++) {
 
-    		printf("%lld ",c[i][j]);
+    		printf("%d ",c[i][j]);
     	}
     	printf("\n");
     }
@@ -155,7 +194,7 @@ int main(int argc, char **argv)
 	for(int i = 0; i < M;i++) {
     	for(int j = 0; j < L;j++) {
 
-    		printf("%lld ",c[i][j]);
+    		printf("%d ",c[i][j]);
     	}
     	printf("\n");
     }

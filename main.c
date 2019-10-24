@@ -124,16 +124,16 @@ int main(int argc, char **argv)
 
 
 	//struct sum_runner_struct args[num_args];
-	struct  matrixElement elem[M*L];
+	struct  matrixElement elem[m*l];
 	
 	// Calculate the time taken by fun() 
     clock_t t; 
     t = clock(); 
     
 	// Launch thread
-	pthread_t tids[M*L];
+	pthread_t tids[m*l];
 	int k=0;
-	for (int i = 0; i < M; i++) {
+	for (int i = 0; i < m; i++) {
 		for(int j=0;j<L;j++){
 			elem[k].row=i;
 			elem[k].column=j;
@@ -146,56 +146,71 @@ int main(int argc, char **argv)
 	}
 
 	// Wait until thread is done its work
-	for (int i = 0; i < (M*L); i++) {
+	for (int i = 0; i < (m*l); i++) {
 		pthread_join(tids[i], NULL);
 
 	}
 	t = clock() - t; 
     double time_taken = ((double)t)/CLOCKS_PER_SEC; // in seconds 
-  
+  	
+  	FILE * outfile;
+    /* open the file for writing*/
+    outfile = fopen ("outfile.txt","w+");
     printf("a took %f seconds to execute \n", time_taken); 
+	
 	//printing output
-	for(int i = 0; i < M;i++) {
-    	for(int j = 0; j < L;j++) {
-
+	for(int i = 0; i < m;i++) {
+    	for(int j = 0; j < l;j++) {
+    		fprintf (outfile, "%d ",c[i][j]);
     		printf("%d ",c[i][j]);
     	}
     	printf("\n");
+    	fprintf (outfile, "\n");
     }
+
+    printf("a took %f seconds to execute \n", time_taken); 
+    fprintf (outfile, "time: %f\n",time_taken); 
+
     printf("*******************************************************\n");
-    for(int i=0;i<M;i++){
-		for(int j=0;j<L;j++){
+
+    for(int i=0;i<m;i++){
+		for(int j=0;j<l;j++){
 			c[i][j]=0;
 		}
 	}
 
-	struct  matrixRow row[M];
+	struct  matrixRow row[m];
 
     t = clock(); 
 	// Launch thread
-	pthread_t tids2[M];
+	pthread_t tids2[m];
 
-	for (int i = 0; i < M; i++) {
+	for (int i = 0; i < m; i++) {
 		row[i].rowNum=i;
 		pthread_create(&tids2[i] ,NULL ,rowMul ,&row[i]);
 				
 	}
 
 	// Wait until threads are done
-	for (int i = 0; i < (M); i++) {
+	for (int i = 0; i < (m); i++) {
 		pthread_join(tids2[i], NULL);
 
 	}
 	t = clock() - t; 
     time_taken = ((double)t)/CLOCKS_PER_SEC; // in seconds 
   
-    printf("b took %f seconds to execute \n", time_taken); 
 	//printing output
-	for(int i = 0; i < M;i++) {
-    	for(int j = 0; j < L;j++) {
-
+	for(int i = 0; i < m;i++) {
+    	for(int j = 0; j < l;j++) {
+    		fprintf (outfile, "%d ",c[i][j]);
     		printf("%d ",c[i][j]);
     	}
     	printf("\n");
+    	fprintf (outfile, "\n");
     }
+
+    printf("a took %f seconds to execute \n", time_taken); 
+    fprintf (outfile, "time: %f\n",time_taken); 
+
+    fclose (outfile);
 }

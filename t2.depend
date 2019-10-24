@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1571864429 source:/home/zeny/Documents/projects/threads/t2/main.c
+	<stdio.h>
+	<stdlib.h>
+	<pthread.h>
+

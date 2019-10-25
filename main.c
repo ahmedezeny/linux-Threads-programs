@@ -2,9 +2,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <time.h> 
-#define M 3
-#define N 5
-#define L 4
+
 #define Max 100
 
 int m,n,l;
@@ -33,7 +31,7 @@ void* elemMul(void* arg)
 {
 	struct matrixElement *elem =(struct matrixElement*) arg;
 
-	for(int i=0;i<N;i++){
+	for(int i=0;i<n;i++){
 		c[elem->row][elem->column]+=
 				a[elem->row][i]*b[i][elem->column];
 	}
@@ -43,8 +41,8 @@ void* elemMul(void* arg)
 void* rowMul(void* arg)
 {
 	struct matrixRow *row =(struct matrixRow*) arg;
-	for(int i=0;i<L;i++){
-		for(int j=0;j<N;j++){
+	for(int i=0;i<l;i++){
+		for(int j=0;j<n;j++){
 			c[row->rowNum][i]+=a[row->rowNum][j]*b[j][i];
 		}
 	}
@@ -90,28 +88,7 @@ void initMatrs(){
     }
 
     fclose(infile);
-/*
-	for(int i = 0; i < M;i++) {
-    	for(int j = 0; j < N;j++) {
 
-    		a[i][j]= rand()%10;
-    		//b[i][j]= rand()%10;
-    		//a[i][j]=(j+i);
-    		printf("%d ",a[i][j]);
-    	}
-    	printf("\n");
-    }
-	
-    for(int i = 0; i < N;i++) {
-    	printf("	");
-    	for(int j = 0; j < L;j++) {
-    		//b[i][j]=(j+i);
-    		//a[i][j]= rand()%10;
-    		b[i][j]= rand()%10;
-    		printf("%d ",b[i][j]);
-    	}
-    	printf("\n");
-    }*/
 }
 
 int main(int argc, char **argv)
@@ -134,7 +111,7 @@ int main(int argc, char **argv)
 	pthread_t tids[m*l];
 	int k=0;
 	for (int i = 0; i < m; i++) {
-		for(int j=0;j<L;j++){
+		for(int j=0;j<l;j++){
 			elem[k].row=i;
 			elem[k].column=j;
 			pthread_attr_t attr;
@@ -156,7 +133,6 @@ int main(int argc, char **argv)
   	FILE * outfile;
     /* open the file for writing*/
     outfile = fopen ("outfile.txt","w+");
-    printf("a took %f seconds to execute \n", time_taken); 
 	
 	//printing output
 	for(int i = 0; i < m;i++) {

@@ -8,11 +8,7 @@
 int m,n,l;
 int a[Max][Max],b[Max][Max],c[Max][Max];
 
-/*struct sum_runner_struct {
-	long long limit;
-	long long answer;
-};
-*/
+
 struct matrixElement {
 	int row;
 	int column;
@@ -22,7 +18,6 @@ struct matrixElement {
 
 struct matrixRow {
 	int rowNum;
-	
 };
 
 
@@ -38,6 +33,7 @@ void* elemMul(void* arg)
 	pthread_exit(0);
 }
 
+//Thread function to calculate the value of row c[row][]
 void* rowMul(void* arg)
 {
 	struct matrixRow *row =(struct matrixRow*) arg;
@@ -50,7 +46,7 @@ void* rowMul(void* arg)
 	pthread_exit(0);
 }
 
-
+//initiating matrices after reading them from file
 void initMatrs(){
 	FILE *infile;
     infile = fopen("infile.txt","r");
@@ -94,13 +90,9 @@ void initMatrs(){
 int main(int argc, char **argv)
 {
 	
-	//int num_args = argc - 1;
-
 	//initializing the matrices
 	initMatrs();
 
-
-	//struct sum_runner_struct args[num_args];
 	struct  matrixElement elem[m*l];
 	
 	// Calculate the time taken by fun() 

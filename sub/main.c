@@ -6,7 +6,7 @@
 #define Max 1000000
 
 int n,a[Max];
-int z=0;
+
 struct arrayBound
 {
 	int left;
@@ -14,7 +14,7 @@ struct arrayBound
 };
 
 
-
+//merge function used in merge sort
 void merge(int low, int mid, int high) 
 { 
     int left[mid - low + 1]; 
@@ -54,14 +54,13 @@ void merge(int low, int mid, int high)
     while (i < n1) { 
         a[k++] = left[i++]; 
     } 
-  
     // insert remaining values from right 
     while (j < n2) { 
         a[k++] = right[j++]; 
     } 
 } 
 
-// merge sort function 
+// merge sort thread function 
 void* merge_sort(void* arg) 
 { 
 
@@ -103,7 +102,7 @@ void* merge_sort(void* arg)
     pthread_exit(0);
 } 
   
-
+//a function that reads the array of enteries
 void readArray(){
 	FILE *infile;
     infile = fopen("input.txt","r");
